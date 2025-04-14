@@ -1,0 +1,657 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище RussianDatingAppModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AgeCategory">
+          <Key>
+            <PropertyRef Name="AgeCategoryID" />
+          </Key>
+          <Property Name="AgeCategoryID" Type="int" Nullable="false" />
+          <Property Name="AgeFrom" Type="int" Nullable="false" />
+          <Property Name="AgeTo" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Region" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PartnerPreference">
+          <Key>
+            <PropertyRef Name="PreferenceID" />
+          </Key>
+          <Property Name="PreferenceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProfileID" Type="int" Nullable="false" />
+          <Property Name="MinAge" Type="int" />
+          <Property Name="MaxAge" Type="int" />
+          <Property Name="MinHeight" Type="int" />
+          <Property Name="MaxHeight" Type="int" />
+          <Property Name="ZodiacSignID" Type="int" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="RegistrationID" />
+          </Key>
+          <Property Name="RegistrationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegistrationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserAccount">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegistrationID" Type="int" Nullable="false" />
+          <Property Name="ProfileID" Type="int" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+          </Key>
+          <Property Name="ProfileID" Type="int" Nullable="false" />
+          <Property Name="RegistrationID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BirthDate" Type="date" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="InterestedInGender" Type="nvarchar" MaxLength="10" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="AboutText" Type="nvarchar" MaxLength="500" />
+          <Property Name="ZodiacSignID" Type="int" />
+          <Property Name="AgeCategoryID" Type="int" />
+          <Property Name="HasPhoto" Type="bit" />
+          <Property Name="IsVerified" Type="bit" />
+        </EntityType>
+        <EntityType Name="ZodiacSign">
+          <Key>
+            <PropertyRef Name="ZodiacSignID" />
+          </Key>
+          <Property Name="ZodiacSignID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RussianName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__PartnerPr__Profi__49C3F6B7">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="PartnerPreference" Type="Self.PartnerPreference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="PartnerPreference">
+              <PropertyRef Name="ProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PartnerPr__Zodia__4AB81AF0">
+          <End Role="ZodiacSign" Type="Self.ZodiacSign" Multiplicity="0..1" />
+          <End Role="PartnerPreference" Type="Self.PartnerPreference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZodiacSign">
+              <PropertyRef Name="ZodiacSignID" />
+            </Principal>
+            <Dependent Role="PartnerPreference">
+              <PropertyRef Name="ZodiacSignID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserAccou__Profi__4E88ABD4">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="UserAccount">
+              <PropertyRef Name="ProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserAccou__Regis__4D94879B">
+          <End Role="Registration" Type="Self.Registration" Multiplicity="1" />
+          <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="RegistrationID" />
+            </Principal>
+            <Dependent Role="UserAccount">
+              <PropertyRef Name="RegistrationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserProfi__AgeCa__46E78A0C">
+          <End Role="AgeCategory" Type="Self.AgeCategory" Multiplicity="0..1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AgeCategory">
+              <PropertyRef Name="AgeCategoryID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="AgeCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserProfi__CityI__44FF419A">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserProfi__Regis__440B1D61">
+          <End Role="Registration" Type="Self.Registration" Multiplicity="1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="RegistrationID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="RegistrationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserProfi__Zodia__45F365D3">
+          <End Role="ZodiacSign" Type="Self.ZodiacSign" Multiplicity="0..1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZodiacSign">
+              <PropertyRef Name="ZodiacSignID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="ZodiacSignID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Хранилище RussianDatingAppModelContainer">
+          <EntitySet Name="AgeCategory" EntityType="Self.AgeCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PartnerPreference" EntityType="Self.PartnerPreference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ZodiacSign" EntityType="Self.ZodiacSign" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__PartnerPr__Profi__49C3F6B7" Association="Self.FK__PartnerPr__Profi__49C3F6B7">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="PartnerPreference" EntitySet="PartnerPreference" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PartnerPr__Zodia__4AB81AF0" Association="Self.FK__PartnerPr__Zodia__4AB81AF0">
+            <End Role="ZodiacSign" EntitySet="ZodiacSign" />
+            <End Role="PartnerPreference" EntitySet="PartnerPreference" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserAccou__Profi__4E88ABD4" Association="Self.FK__UserAccou__Profi__4E88ABD4">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UserAccount" EntitySet="UserAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserAccou__Regis__4D94879B" Association="Self.FK__UserAccou__Regis__4D94879B">
+            <End Role="Registration" EntitySet="Registration" />
+            <End Role="UserAccount" EntitySet="UserAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserProfi__AgeCa__46E78A0C" Association="Self.FK__UserProfi__AgeCa__46E78A0C">
+            <End Role="AgeCategory" EntitySet="AgeCategory" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserProfi__CityI__44FF419A" Association="Self.FK__UserProfi__CityI__44FF419A">
+            <End Role="City" EntitySet="City" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserProfi__Regis__440B1D61" Association="Self.FK__UserProfi__Regis__440B1D61">
+            <End Role="Registration" EntitySet="Registration" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserProfi__Zodia__45F365D3" Association="Self.FK__UserProfi__Zodia__45F365D3">
+            <End Role="ZodiacSign" EntitySet="ZodiacSign" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RussianDatingAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AgeCategory">
+          <Key>
+            <PropertyRef Name="AgeCategoryID" />
+          </Key>
+          <Property Name="AgeCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="AgeFrom" Type="Int32" Nullable="false" />
+          <Property Name="AgeTo" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK__UserProfi__AgeCa__46E78A0C" FromRole="AgeCategory" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK__UserProfi__CityI__44FF419A" FromRole="City" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="PartnerPreference">
+          <Key>
+            <PropertyRef Name="PreferenceID" />
+          </Key>
+          <Property Name="PreferenceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="MinAge" Type="Int32" />
+          <Property Name="MaxAge" Type="Int32" />
+          <Property Name="MinHeight" Type="Int32" />
+          <Property Name="MaxHeight" Type="Int32" />
+          <Property Name="ZodiacSignID" Type="Int32" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK__PartnerPr__Profi__49C3F6B7" FromRole="PartnerPreference" ToRole="UserProfile" />
+          <NavigationProperty Name="ZodiacSign" Relationship="Self.FK__PartnerPr__Zodia__4AB81AF0" FromRole="PartnerPreference" ToRole="ZodiacSign" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="RegistrationID" />
+          </Key>
+          <Property Name="RegistrationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UserAccount" Relationship="Self.FK__UserAccou__Regis__4D94879B" FromRole="Registration" ToRole="UserAccount" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK__UserProfi__Regis__440B1D61" FromRole="Registration" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="UserAccount">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegistrationID" Type="Int32" Nullable="false" />
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Registration" Relationship="Self.FK__UserAccou__Regis__4D94879B" FromRole="UserAccount" ToRole="Registration" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK__UserAccou__Profi__4E88ABD4" FromRole="UserAccount" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+          </Key>
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="RegistrationID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="InterestedInGender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="AboutText" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ZodiacSignID" Type="Int32" />
+          <Property Name="AgeCategoryID" Type="Int32" />
+          <Property Name="HasPhoto" Type="Boolean" />
+          <Property Name="IsVerified" Type="Boolean" />
+          <NavigationProperty Name="AgeCategory" Relationship="Self.FK__UserProfi__AgeCa__46E78A0C" FromRole="UserProfile" ToRole="AgeCategory" />
+          <NavigationProperty Name="City" Relationship="Self.FK__UserProfi__CityI__44FF419A" FromRole="UserProfile" ToRole="City" />
+          <NavigationProperty Name="PartnerPreference" Relationship="Self.FK__PartnerPr__Profi__49C3F6B7" FromRole="UserProfile" ToRole="PartnerPreference" />
+          <NavigationProperty Name="Registration" Relationship="Self.FK__UserProfi__Regis__440B1D61" FromRole="UserProfile" ToRole="Registration" />
+          <NavigationProperty Name="UserAccount" Relationship="Self.FK__UserAccou__Profi__4E88ABD4" FromRole="UserProfile" ToRole="UserAccount" />
+          <NavigationProperty Name="ZodiacSign" Relationship="Self.FK__UserProfi__Zodia__45F365D3" FromRole="UserProfile" ToRole="ZodiacSign" />
+        </EntityType>
+        <EntityType Name="ZodiacSign">
+          <Key>
+            <PropertyRef Name="ZodiacSignID" />
+          </Key>
+          <Property Name="ZodiacSignID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RussianName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PartnerPreference" Relationship="Self.FK__PartnerPr__Zodia__4AB81AF0" FromRole="ZodiacSign" ToRole="PartnerPreference" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK__UserProfi__Zodia__45F365D3" FromRole="ZodiacSign" ToRole="UserProfile" />
+        </EntityType>
+        <Association Name="FK__UserProfi__AgeCa__46E78A0C">
+          <End Role="AgeCategory" Type="Self.AgeCategory" Multiplicity="0..1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AgeCategory">
+              <PropertyRef Name="AgeCategoryID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="AgeCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserProfi__CityI__44FF419A">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PartnerPr__Profi__49C3F6B7">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="PartnerPreference" Type="Self.PartnerPreference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="PartnerPreference">
+              <PropertyRef Name="ProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PartnerPr__Zodia__4AB81AF0">
+          <End Role="ZodiacSign" Type="Self.ZodiacSign" Multiplicity="0..1" />
+          <End Role="PartnerPreference" Type="Self.PartnerPreference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZodiacSign">
+              <PropertyRef Name="ZodiacSignID" />
+            </Principal>
+            <Dependent Role="PartnerPreference">
+              <PropertyRef Name="ZodiacSignID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserAccou__Regis__4D94879B">
+          <End Role="Registration" Type="Self.Registration" Multiplicity="1" />
+          <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="RegistrationID" />
+            </Principal>
+            <Dependent Role="UserAccount">
+              <PropertyRef Name="RegistrationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserProfi__Regis__440B1D61">
+          <End Role="Registration" Type="Self.Registration" Multiplicity="1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="RegistrationID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="RegistrationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserAccou__Profi__4E88ABD4">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="UserAccount">
+              <PropertyRef Name="ProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserProfi__Zodia__45F365D3">
+          <End Role="ZodiacSign" Type="Self.ZodiacSign" Multiplicity="0..1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZodiacSign">
+              <PropertyRef Name="ZodiacSignID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="ZodiacSignID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RussianDatingAppEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AgeCategory" EntityType="Self.AgeCategory" />
+          <EntitySet Name="City" EntityType="Self.City" />
+          <EntitySet Name="PartnerPreference" EntityType="Self.PartnerPreference" />
+          <EntitySet Name="Registration" EntityType="Self.Registration" />
+          <EntitySet Name="UserAccount" EntityType="Self.UserAccount" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" />
+          <EntitySet Name="ZodiacSign" EntityType="Self.ZodiacSign" />
+          <AssociationSet Name="FK__UserProfi__AgeCa__46E78A0C" Association="Self.FK__UserProfi__AgeCa__46E78A0C">
+            <End Role="AgeCategory" EntitySet="AgeCategory" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserProfi__CityI__44FF419A" Association="Self.FK__UserProfi__CityI__44FF419A">
+            <End Role="City" EntitySet="City" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PartnerPr__Profi__49C3F6B7" Association="Self.FK__PartnerPr__Profi__49C3F6B7">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="PartnerPreference" EntitySet="PartnerPreference" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PartnerPr__Zodia__4AB81AF0" Association="Self.FK__PartnerPr__Zodia__4AB81AF0">
+            <End Role="ZodiacSign" EntitySet="ZodiacSign" />
+            <End Role="PartnerPreference" EntitySet="PartnerPreference" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserAccou__Regis__4D94879B" Association="Self.FK__UserAccou__Regis__4D94879B">
+            <End Role="Registration" EntitySet="Registration" />
+            <End Role="UserAccount" EntitySet="UserAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserProfi__Regis__440B1D61" Association="Self.FK__UserProfi__Regis__440B1D61">
+            <End Role="Registration" EntitySet="Registration" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserAccou__Profi__4E88ABD4" Association="Self.FK__UserAccou__Profi__4E88ABD4">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UserAccount" EntitySet="UserAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserProfi__Zodia__45F365D3" Association="Self.FK__UserProfi__Zodia__45F365D3">
+            <End Role="ZodiacSign" EntitySet="ZodiacSign" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(RussianDatingAppModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(RussianDatingAppModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище RussianDatingAppModelContainer" CdmEntityContainer="RussianDatingAppEntities">
+          <EntitySetMapping Name="AgeCategory">
+            <EntityTypeMapping TypeName="RussianDatingAppModel.AgeCategory">
+              <MappingFragment StoreEntitySet="AgeCategory">
+                <ScalarProperty Name="AgeCategoryID" ColumnName="AgeCategoryID" />
+                <ScalarProperty Name="AgeFrom" ColumnName="AgeFrom" />
+                <ScalarProperty Name="AgeTo" ColumnName="AgeTo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="City">
+            <EntityTypeMapping TypeName="RussianDatingAppModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PartnerPreference">
+            <EntityTypeMapping TypeName="RussianDatingAppModel.PartnerPreference">
+              <MappingFragment StoreEntitySet="PartnerPreference">
+                <ScalarProperty Name="PreferenceID" ColumnName="PreferenceID" />
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="MinAge" ColumnName="MinAge" />
+                <ScalarProperty Name="MaxAge" ColumnName="MaxAge" />
+                <ScalarProperty Name="MinHeight" ColumnName="MinHeight" />
+                <ScalarProperty Name="MaxHeight" ColumnName="MaxHeight" />
+                <ScalarProperty Name="ZodiacSignID" ColumnName="ZodiacSignID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Registration">
+            <EntityTypeMapping TypeName="RussianDatingAppModel.Registration">
+              <MappingFragment StoreEntitySet="Registration">
+                <ScalarProperty Name="RegistrationID" ColumnName="RegistrationID" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAccount">
+            <EntityTypeMapping TypeName="RussianDatingAppModel.UserAccount">
+              <MappingFragment StoreEntitySet="UserAccount">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RegistrationID" ColumnName="RegistrationID" />
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfile">
+            <EntityTypeMapping TypeName="RussianDatingAppModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="RegistrationID" ColumnName="RegistrationID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="InterestedInGender" ColumnName="InterestedInGender" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="AboutText" ColumnName="AboutText" />
+                <ScalarProperty Name="ZodiacSignID" ColumnName="ZodiacSignID" />
+                <ScalarProperty Name="AgeCategoryID" ColumnName="AgeCategoryID" />
+                <ScalarProperty Name="HasPhoto" ColumnName="HasPhoto" />
+                <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZodiacSign">
+            <EntityTypeMapping TypeName="RussianDatingAppModel.ZodiacSign">
+              <MappingFragment StoreEntitySet="ZodiacSign">
+                <ScalarProperty Name="ZodiacSignID" ColumnName="ZodiacSignID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RussianName" ColumnName="RussianName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище RussianDatingAppModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище RussianDatingAppModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище RussianDatingAppModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище RussianDatingAppModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RussianDatingAppModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище RussianDatingAppModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RussianDatingAppModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище RussianDatingAppModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище RussianDatingAppModel.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
