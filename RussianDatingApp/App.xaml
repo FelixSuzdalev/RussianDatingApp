@@ -6,50 +6,6 @@
     <Application.Resources>
         <local:DateToAgeConverter x:Key="AgeConverter"/>
         <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-       
-
-        <Style TargetType="DataGrid">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="AlternatingRowBackground" Value="#FFF5F5F5"/>
-            <Setter Property="RowBackground" Value="White"/>
-            <Setter Property="HeadersVisibility" Value="Column"/>
-            <Setter Property="CanUserAddRows" Value="False"/>
-            <Setter Property="IsReadOnly" Value="True"/>
-            <Setter Property="SelectionMode" Value="Single"/>
-            <Setter Property="SelectionUnit" Value="FullRow"/>
-            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
-        </Style>
-
-        <Style TargetType="DataGridColumnHeader">
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="8 5"/>
-            <Setter Property="Background" Value="#FF3F51B5"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="TabItem">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Padding" Value="12 5"/>
-        </Style>
-
-        <Style TargetType="Button">
-            <Setter Property="Padding" Value="8 4"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="MinWidth" Value="80"/>
-            <Setter Property="Background" Value="#FF3F51B5"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="TextBox">
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="MinWidth" Value="200"/>
-        </Style>
+      
     </Application.Resources>
 </Application>

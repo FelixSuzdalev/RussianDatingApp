@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище RussianDatingAppModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище RussianDatingAppModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AgeCategory">
           <Key>
             <PropertyRef Name="AgeCategoryID" />
@@ -33,6 +33,7 @@
           <Property Name="MinHeight" Type="int" />
           <Property Name="MaxHeight" Type="int" />
           <Property Name="ZodiacSignID" Type="int" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Registration">
           <Key>
@@ -247,8 +248,7 @@
             <End Role="UserProfile" EntitySet="UserProfile" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RussianDatingAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -284,6 +284,7 @@
           <Property Name="ZodiacSignID" Type="Int32" />
           <NavigationProperty Name="UserProfile" Relationship="Self.FK__PartnerPr__Profi__49C3F6B7" FromRole="PartnerPreference" ToRole="UserProfile" />
           <NavigationProperty Name="ZodiacSign" Relationship="Self.FK__PartnerPr__Zodia__4AB81AF0" FromRole="PartnerPreference" ToRole="ZodiacSign" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Registration">
           <Key>
@@ -548,6 +549,7 @@
           <EntitySetMapping Name="PartnerPreference">
             <EntityTypeMapping TypeName="RussianDatingAppModel.PartnerPreference">
               <MappingFragment StoreEntitySet="PartnerPreference">
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="PreferenceID" ColumnName="PreferenceID" />
                 <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
                 <ScalarProperty Name="MinAge" ColumnName="MinAge" />

@@ -21,6 +21,7 @@ namespace RussianDatingApp.Model
         public Nullable<int> MinHeight { get; set; }
         public Nullable<int> MaxHeight { get; set; }
         public Nullable<int> ZodiacSignID { get; set; }
+        public string Gender { get; set; }
     
         public virtual UserProfile UserProfile { get; set; }
         public virtual ZodiacSign ZodiacSign { get; set; }

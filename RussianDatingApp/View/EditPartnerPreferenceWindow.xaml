@@ -1,0 +1,39 @@
+﻿<Window x:Class="RussianDatingApp.View.EditPartnerPreferenceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактирование предпочтений партнёра" Height="400" Width="400" WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+            <TextBlock Text="Пользователь:"/>
+            <ComboBox ItemsSource="{Binding UserProfiles}" SelectedItem="{Binding CurrentPreference.UserProfile}"
+                      DisplayMemberPath="LastName"/>
+
+            <TextBlock Text="Минимальный возраст:" Margin="0,10,0,0"/>
+            <TextBox Text="{Binding CurrentPreference.MinAge, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Максимальный возраст:" Margin="0,10,0,0"/>
+            <TextBox Text="{Binding CurrentPreference.MaxAge, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Пол партнёра:" Margin="0,10,0,0"/>
+            <ComboBox SelectedItem="{Binding CurrentPreference.Gender}" IsEditable="False">
+                <ComboBoxItem Content="Мужской"/>
+                <ComboBoxItem Content="Женский"/>
+            </ComboBox>
+
+            <TextBlock Text="Желаемый знак зодиака:" Margin="0,10,0,0"/>
+            <ComboBox ItemsSource="{Binding ZodiacSigns}" SelectedValue="{Binding CurrentPreference.ZodiacSignID}"
+                      SelectedValuePath="ZodiacSignID" DisplayMemberPath="RussianName"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" Width="100" Height="25" Margin="0,0,10,0"/>
+            <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Height="25" Margin="0,0,10,0"/>
+        </StackPanel>
+    </Grid>
+</Window>
