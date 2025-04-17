@@ -13,9 +13,10 @@
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
+        <!-- Кнопки -->
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="Height" Value="25"/>
+            <Setter Property="Height" Value="30"/>
             <Setter Property="Width" Value="100"/>
             <Setter Property="Padding" Value="12 6"/>
             <Setter Property="Background" Value="#2D2D30"/>
@@ -26,19 +27,19 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
+        <!-- Вкладки -->
         <Style TargetType="TabItem">
             <Setter Property="Foreground" Value="#EAEAEA"/>
             <Setter Property="Padding" Value="10 5"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-         
             <Setter Property="Background" Value="#2D2D30"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Template">
@@ -54,11 +55,24 @@
             </Setter>
         </Style>
 
+        <!-- Текстовые поля -->
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="#EAEAEA"/>
+            <Setter Property="Background" Value="#2D2D30"/>
+            <Setter Property="BorderBrush" Value="#444"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#EAEAEA"/>
+        </Style>
+
+        <!-- DataGrid -->
         <Style TargetType="DataGrid">
             <Setter Property="Background" Value="#1E1E1E"/>
             <Setter Property="RowBackground" Value="#2D2D30"/>
             <Setter Property="AlternatingRowBackground" Value="#252526"/>
-            <Setter Property="Foreground" Value="#2a9d8f"/>
+
+            <Setter Property="Foreground" Value="#FF2A9D8F"/>
             <Setter Property="GridLinesVisibility" Value="None"/>
             <Setter Property="RowHeaderWidth" Value="0"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
@@ -93,7 +107,7 @@
                     CommandParameter="{Binding SelectedItem, ElementName=usersGrid}"
                     Margin="5" Padding="10 5"/>
                             <TextBlock Text="Поиск:" Margin="10 5 5 5" VerticalAlignment="Center" Foreground="#2D2D30"/>
-                            <TextBox Width="250" Text="{Binding UserSearchText, UpdateSourceTrigger=PropertyChanged}" Foreground="#2D2D30"/>
+                            <TextBox Width="250" Text="{Binding UserSearchText, UpdateSourceTrigger=PropertyChanged}" Foreground="#FF2A9D8F" FontSize="25" Height="29"/>
                             <TextBlock Text="Всего:" Margin="10 5 5 5" VerticalAlignment="Center" Foreground="#2D2D30"/>
                             <TextBlock  Text="{Binding UserProfiles.Count}" FontWeight="Bold" VerticalAlignment="Center" Foreground="#2D2D30"/>
                         </StackPanel>
@@ -212,7 +226,7 @@
                 <TabItem Header="🔞 Возрастные категории">
                     <DockPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
-                            <Button Content="Добавить" Command="{Binding AddAgeCategoryCommand}" Margin="5" Padding="10 5"/>
+                            <!--Button Content="Добавить" Command="{Binding AddAgeCategoryCommand}" Margin="5" Padding="10 5"!-->
                             <Button Content="Редактировать" Command="{Binding EditAgeCategoryCommand}"
                                     CommandParameter="{Binding SelectedItem, ElementName=ageCategoryGrid}"
                                     Margin="5" Padding="10 5"/>
@@ -245,7 +259,7 @@
                 <TabItem Header="💘 Предпочтения">
                     <DockPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
-                            <Button Content="Добавить" Command="{Binding AddPartnerPreferenceCommand}" Margin="5" Padding="10 5"/>
+                            <!--Button Content="Добавить" Command="{Binding AddPartnerPreferenceCommand}" Margin="5" Padding="10 5"/!-->
                             <Button Content="Редактировать" Command="{Binding EditPartnerPreferenceCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=preferenceGrid}"
                     Margin="5" Padding="10 5"/>
