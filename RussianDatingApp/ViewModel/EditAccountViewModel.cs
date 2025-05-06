@@ -71,7 +71,7 @@ namespace RussianDatingApp.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public EditAccountViewModel(UserAccount account, RussianDatingAppEntities dbContext)
+        public EditAccountViewModel(UserAccount account, RussianDatingAppEntities  dbContext)
         {
             _dbContext = dbContext;
             _originalAccount = account;

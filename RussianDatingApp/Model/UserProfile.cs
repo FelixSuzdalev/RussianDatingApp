@@ -41,5 +41,6 @@ namespace RussianDatingApp.Model
         public virtual Registration Registration { get; set; }
         public virtual ICollection<UserAccount> UserAccount { get; set; }
         public virtual ZodiacSign ZodiacSign { get; set; }
+        public virtual ZodiacSign ZodiacSign1 { get; set; }
     }
 }

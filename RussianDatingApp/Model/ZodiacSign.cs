@@ -18,6 +18,7 @@ namespace RussianDatingApp.Model
         {
             this.PartnerPreference = new HashSet<PartnerPreference>();
             this.UserProfile = new HashSet<UserProfile>();
+            this.UserProfile1 = new HashSet<UserProfile>();
         }
     
         public int ZodiacSignID { get; set; }
@@ -26,5 +27,6 @@ namespace RussianDatingApp.Model
     
         public virtual ICollection<PartnerPreference> PartnerPreference { get; set; }
         public virtual ICollection<UserProfile> UserProfile { get; set; }
+        public virtual ICollection<UserProfile> UserProfile1 { get; set; }
     }
 }

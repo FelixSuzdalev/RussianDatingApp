@@ -16,12 +16,12 @@ namespace RussianDatingApp.Model
     {
         public int UserID { get; set; }
         public int RegistrationID { get; set; }
-        public int ProfileID { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string PasswordHash { get; set; }
+        public Nullable<int> ProfileID { get; set; }
     
-        public virtual Registration Registration { get; set; }
         public virtual UserProfile UserProfile { get; set; }
+        public virtual Registration Registration { get; set; }
     }
 }

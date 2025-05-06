@@ -16,14 +16,14 @@ namespace RussianDatingApp.Model
     {
         public Registration()
         {
-            this.UserAccount = new HashSet<UserAccount>();
             this.UserProfile = new HashSet<UserProfile>();
+            this.UserAccount = new HashSet<UserAccount>();
         }
     
         public int RegistrationID { get; set; }
         public Nullable<System.DateTime> RegistrationDate { get; set; }
     
-        public virtual ICollection<UserAccount> UserAccount { get; set; }
         public virtual ICollection<UserProfile> UserProfile { get; set; }
+        public virtual ICollection<UserAccount> UserAccount { get; set; }
     }
 }

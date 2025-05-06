@@ -62,6 +62,45 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\AgeCategory.cs">
+      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\City.cs">
+      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PartnerPreference.cs">
+      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Registration.cs">
+      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RussianDatingAppModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RussianDatingAppModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RussianDatingAppModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RussianDatingAppModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RussianDatingAppModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\sysdiagrams.cs">
+      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\UserAccount.cs">
+      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\UserProfile.cs">
+      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ZodiacSign.cs">
+      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="View\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
@@ -93,53 +132,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\AgeCategory.cs">
-      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\City.cs">
-      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PartnerPreference.cs">
-      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Registration.cs">
-      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\RussianDatingAppModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RussianDatingAppModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\RussianDatingAppModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\RussianDatingAppModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RussianDatingAppModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Model\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\sp_helpdiagrams_Result.cs">
-      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\UserAccount.cs">
-      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\UserProfile.cs">
-      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ZodiacSign.cs">
-      <DependentUpon>RussianDatingAppModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="ViewModel\EditAccountViewModel.cs" />
     <Compile Include="ViewModel\EditAgeCategoryViewModel.cs" />
-    <Compile Include="ViewModel\EditCityViewModel.cs.cs" />
+    <Compile Include="ViewModel\EditCityViewModel.cs" />
     <Compile Include="ViewModel\EditPartnerPreferenceViewModel.cs" />
     <Compile Include="ViewModel\EditUserProfileViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -207,19 +204,19 @@
     <Folder Include="Resourses\" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Model\RussianDatingAppModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>RussianDatingAppModel.Context.cs</LastGenOutput>
       <DependentUpon>RussianDatingAppModel.edmx</DependentUpon>
+      <LastGenOutput>RussianDatingAppModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Model\RussianDatingAppModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>RussianDatingAppModel.edmx</DependentUpon>
       <LastGenOutput>RussianDatingAppModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
