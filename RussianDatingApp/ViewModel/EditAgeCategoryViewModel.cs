@@ -26,6 +26,7 @@ namespace RussianDatingApp.ViewModel
             _original = category;
             _dbContext = dbContext;
 
+            // Если переданный объект категории не null, создаем копию для редактирования.
             CurrentAgeCategory = new AgeCategory
             {
                 AgeCategoryID = category.AgeCategoryID,
@@ -40,11 +41,24 @@ namespace RussianDatingApp.ViewModel
 
         private void Save()
         {
+            // Проверка, что возраст "от" не больше возраста "до"
+            if (CurrentAgeCategory.AgeFrom > CurrentAgeCategory.AgeTo)
+            {
+                MessageBox.Show("Возраст 'от' не может быть больше возраста 'до'.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             try
             {
-                if (_original.AgeCategoryID == 0)
+                // Если это новая категория (AgeCategoryID == 0), добавляем ее в базу данных
+                if (CurrentAgeCategory.AgeCategoryID == 0)
                 {
-                    _dbContext.AgeCategory.Add(_original);
+                    _dbContext.AgeCategory.Add(CurrentAgeCategory);
+                }
+                else
+                {
+                    // Если это существующая категория, обновляем ее данные
+                    _dbContext.Entry(_original).CurrentValues.SetValues(CurrentAgeCategory);
                 }
 
                 _dbContext.SaveChanges();
@@ -69,7 +83,6 @@ namespace RussianDatingApp.ViewModel
             }
 
         }
-
 
         private void Cancel()
         {

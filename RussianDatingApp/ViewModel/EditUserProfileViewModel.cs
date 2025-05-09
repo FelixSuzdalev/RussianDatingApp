@@ -1,8 +1,9 @@
-﻿
-using RussianDatingApp.Model;
+﻿using RussianDatingApp.Model;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -13,7 +14,6 @@ namespace RussianDatingApp.ViewModel
 {
     public class EditUserProfileViewModel : INotifyPropertyChanged
     {
-        private readonly UserProfile _original;
         private readonly RussianDatingAppEntities _dbContext;
 
         public UserProfile CurrentProfile { get; set; }
@@ -25,14 +25,19 @@ namespace RussianDatingApp.ViewModel
 
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
-
+        public List<string> Genders { get; } = new List<string> { "Мужской", "Женский" };
         public event PropertyChangedEventHandler PropertyChanged;
+
+        // События для взаимодействия с View
+        public event EventHandler<bool> RequestClose;
+        public event EventHandler<MessageBoxEventArgs> ShowMessage;
 
         public EditUserProfileViewModel(UserProfile profile, RussianDatingAppEntities context)
         {
-            _original = profile;
-            _dbContext = context;
+            _dbContext = context ?? throw new ArgumentNullException(nameof(context));
+            CurrentProfile = profile ?? throw new ArgumentNullException(nameof(profile));
 
+            // Загружаем справочники
             _dbContext.City.Load();
             _dbContext.ZodiacSign.Load();
             _dbContext.AgeCategory.Load();
@@ -43,23 +48,9 @@ namespace RussianDatingApp.ViewModel
             AgeCategories = _dbContext.AgeCategory.Local;
             Registrations = _dbContext.Registration.Local;
 
-            CurrentProfile = new UserProfile
-            {
-                ProfileID = profile.ProfileID,
-                FirstName = profile.FirstName,
-                LastName = profile.LastName,
-                MiddleName = profile.MiddleName,
-                Gender = profile.Gender,
-                BirthDate = profile.BirthDate,
-                CityID = profile.CityID,
-                ZodiacSignID = profile.ZodiacSignID,
-                AgeCategoryID = profile.AgeCategoryID,
-                HasPhoto = profile.HasPhoto,
-                IsVerified = profile.IsVerified,
-                InterestedInGender = profile.InterestedInGender,
-                AboutText = profile.AboutText,
-                RegistrationID = profile.RegistrationID > 0 ? profile.RegistrationID : Registrations.FirstOrDefault()?.RegistrationID ?? 1
-            };
+            // Значения по умолчанию
+            if (CurrentProfile.RegistrationID == 0 && Registrations.Any())
+                CurrentProfile.RegistrationID = Registrations.First().RegistrationID;
 
             SaveCommand = new RelayCommand(Save);
             CancelCommand = new RelayCommand(Cancel);
@@ -69,57 +60,60 @@ namespace RussianDatingApp.ViewModel
         {
             try
             {
+                // Простая валидация
                 if (string.IsNullOrWhiteSpace(CurrentProfile.FirstName) || string.IsNullOrWhiteSpace(CurrentProfile.LastName))
                 {
-                    MessageBox.Show("Поля 'Имя' и 'Фамилия' обязательны.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ShowMessage?.Invoke(this, new MessageBoxEventArgs("Поля 'Имя' и 'Фамилия' обязательны.", "Ошибка", MessageBoxImage.Error));
                     return;
                 }
 
-                _original.FirstName = CurrentProfile.FirstName?.Trim();
-                _original.LastName = CurrentProfile.LastName?.Trim();
-                _original.MiddleName = CurrentProfile.MiddleName?.Trim();
-                _original.Gender = CurrentProfile.Gender;
-                _original.BirthDate = CurrentProfile.BirthDate;
-                _original.CityID = CurrentProfile.CityID;
-                _original.ZodiacSignID = CurrentProfile.ZodiacSignID;
-                _original.AgeCategoryID = CurrentProfile.AgeCategoryID;
-                _original.HasPhoto = CurrentProfile.HasPhoto;
-                _original.IsVerified = CurrentProfile.IsVerified;
-                _original.InterestedInGender = CurrentProfile.InterestedInGender;
-                _original.AboutText = CurrentProfile.AboutText;
-                _original.RegistrationID = CurrentProfile.RegistrationID;
+                var entry = _dbContext.Entry(CurrentProfile);
 
-               
+                // Если объект отсоединён — прикрепляем
+                if (entry.State == EntityState.Detached)
+                {
+                    _dbContext.UserProfile.Attach(CurrentProfile);
+                    entry = _dbContext.Entry(CurrentProfile);
+                }
+
+                entry.State = EntityState.Modified;
+
                 _dbContext.SaveChanges();
 
-                CloseWindow(true);
+                ShowMessage?.Invoke(this, new MessageBoxEventArgs("Профиль успешно сохранён.", "Успех", MessageBoxImage.Information));
+                RequestClose?.Invoke(this, true);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при сохранении профиля: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowMessage?.Invoke(this, new MessageBoxEventArgs($"Ошибка при сохранении профиля: {ex.Message}", "Ошибка", MessageBoxImage.Error));
             }
         }
 
         private void Cancel()
         {
-            CloseWindow(false);
+            RequestClose?.Invoke(this, false);
         }
 
-        private void CloseWindow(bool result)
-        {
-            foreach (Window w in Application.Current.Windows)
-            {
-                if (w.DataContext == this)
-                {
-                    w.DialogResult = result;
-                    break;
-                }
-            }
-        }
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    /// <summary>
+    /// Обёртка для передачи информации о MessageBox в View.
+    /// </summary>
+    public class MessageBoxEventArgs : EventArgs
+    {
+        public string Message { get; }
+        public string Caption { get; }
+        public MessageBoxImage Icon { get; }
+
+        public MessageBoxEventArgs(string message, string caption, MessageBoxImage icon)
+        {
+            Message = message;
+            Caption = caption;
+            Icon = icon;
         }
     }
 }

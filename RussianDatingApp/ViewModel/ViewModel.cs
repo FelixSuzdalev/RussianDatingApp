@@ -8,6 +8,7 @@ namespace RussianDatingApp.ViewModel
     public class FilterViewModel : ABaseViewModel
     {
         private readonly RussianDatingAppEntities _dbContext;
+      
 
         private ObservableCollection<AgeCategory> _ageCategories;
         public ObservableCollection<AgeCategory> AgeCategories

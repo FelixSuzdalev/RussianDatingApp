@@ -1,5 +1,8 @@
-﻿using System;
+﻿using RussianDatingApp.Model;
+using RussianDatingApp.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,14 +17,20 @@ using System.Windows.Shapes;
 
 namespace RussianDatingApp.View
 {
-    /// <summary>
-    /// Логика взаимодействия для EditUserProfileViewModel.xaml
-    /// </summary>
     public partial class EditUserProfileWindow : Window
     {
-        public EditUserProfileWindow()
+        public EditUserProfileWindow(UserProfile profile, RussianDatingAppEntities dbContext)
         {
             InitializeComponent();
+
+            var viewModel = new EditUserProfileViewModel(profile, dbContext);
+
+            // Подписка на события ViewModel
+            viewModel.RequestClose += (s, result) => this.DialogResult = result;
+            viewModel.ShowMessage += (s, args) =>
+                MessageBox.Show(args.Message, args.Caption, MessageBoxButton.OK, args.Icon);
+
+            DataContext = viewModel;
         }
     }
 }

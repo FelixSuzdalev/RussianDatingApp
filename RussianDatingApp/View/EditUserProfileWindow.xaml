@@ -41,10 +41,9 @@
                           SelectedValuePath="AgeCategoryID" DisplayMemberPath="Description"/>
 
                 <TextBlock Text="Интересует пол:" Margin="0,10,0,0"/>
-                <ComboBox SelectedItem="{Binding CurrentProfile.InterestedInGender}" IsEditable="False">
-                    <ComboBoxItem Content="Мужской"/>
-                    <ComboBoxItem Content="Женский"/>
-                </ComboBox>
+                <ComboBox ItemsSource="{Binding Genders}"
+          SelectedItem="{Binding CurrentProfile.Gender}" 
+          IsEditable="False"/>
 
                 <TextBlock Text="О себе:" Margin="0,10,0,0"/>
                 <TextBox Text="{Binding CurrentProfile.AboutText}" AcceptsReturn="True" Height="60"/>

@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="Russian Dating - Админ панель"
         Height="800" Width="1200"
+        MaxHeight="800" MaxWidth="1200"
+        MinHeight="800" MinWidth="1200"
         FontFamily="Montserrat"
         Background="#1E1E1E"
         Foreground="#EAEAEA"
@@ -113,9 +115,10 @@
                         </StackPanel>
 
                         <DataGrid x:Name="usersGrid"
-                  ItemsSource="{Binding FilteredUsers}" AutoGenerateColumns="False"
-                  CanUserSortColumns="True" CanUserAddRows="False" CanUserDeleteRows="False"
-                  SelectionMode="Single">
+          ItemsSource="{Binding FilteredUsers}" AutoGenerateColumns="False"
+          CanUserSortColumns="True" CanUserAddRows="False" CanUserDeleteRows="False"
+          SelectionMode="Single"
+          IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ФИО" Width="250" SortMemberPath="LastName">
                                     <DataGridTextColumn.Binding>
@@ -141,49 +144,13 @@
 
                 <!-- Вкладка аккаунтов -->
                 <TabItem Header="🔐 Аккаунты">
-                <DockPanel>
-                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
-                        <Button Content="Добавить" Command="{Binding AddUserAccountCommand}" Margin="5" Padding="10 5"/>
-                        <Button Content="Редактировать" Command="{Binding EditUserAccountCommand}"
-                    CommandParameter="{Binding SelectedItem, ElementName=accountsGrid}"
-                    Margin="5" Padding="10 5"/>
-                        <Button Content="Удалить" Command="{Binding DeleteUserAccountCommand}" 
-                    CommandParameter="{Binding SelectedItem, ElementName=accountsGrid}"
-                    Margin="5" Padding="10 5"/>
-                            <TextBlock Text="Всего:" Margin="10 5 5 5" VerticalAlignment="Center" Foreground="#2D2D30"/>
-                            <TextBlock Text="{Binding UserAccounts.Count}" FontWeight="Bold" VerticalAlignment="Center" Foreground="#2D2D30"/>
-                    </StackPanel>
-
-                    <DataGrid x:Name="accountsGrid"
-                  ItemsSource="{Binding UserAccounts}" 
-                  AutoGenerateColumns="False"
-                  CanUserSortColumns="True" 
-                  CanUserAddRows="False" 
-                  CanUserDeleteRows="False"
-                  SelectionMode="Single">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Пользователь" Width="250" SortMemberPath="UserProfile.LastName">
-                                <DataGridTextColumn.Binding>
-                                    <MultiBinding StringFormat="{}{0} {1}">
-                                        <Binding Path="UserProfile.LastName"/>
-                                        <Binding Path="UserProfile.FirstName"/>
-                                    </MultiBinding>
-                                </DataGridTextColumn.Binding>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="200" SortMemberPath="Email"/>
-                            <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="120" SortMemberPath="Phone"/>
-                            <DataGridTextColumn Header="Дата регистрации" 
-                                      Binding="{Binding Registration.RegistrationDate, StringFormat='dd.MM.yyyy'}" 
-                                      Width="120" SortMemberPath="Registration.RegistrationDate"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </DockPanel>
+                    <Image Margin="33,20,1061,591"/>
                 </TabItem>
                 <!-- Вкладка городов -->
                 <TabItem Header="🏙️ Города">
                     <DockPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
-                            <Button Content="Добавить" Command="{Binding AddCityCommand}" Margin="5" Padding="10 5"/>
+                            <Button Content="Добавить" Command="{Binding AddCityCommand}" Margin="5" Padding="10 "/>
                             <Button Content="Редактировать"
                                     Command="{Binding EditCityCommand}"
                                     CommandParameter="{Binding SelectedItem, ElementName=citiesGrid}"
@@ -198,7 +165,7 @@
                         <DataGrid x:Name="citiesGrid"
                                   ItemsSource="{Binding Cities}" AutoGenerateColumns="False"
                                   CanUserSortColumns="True" CanUserAddRows="False" CanUserDeleteRows="False"
-                                  SelectionMode="Single">
+                                  SelectionMode="Single" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Город" Binding="{Binding Name}" Width="200" SortMemberPath="Name"/>
                                 <DataGridTextColumn Header="Регион" Binding="{Binding Region}" Width="200" SortMemberPath="Region"/>
@@ -213,7 +180,7 @@
                         
 
                         <DataGrid ItemsSource="{Binding ZodiacSigns}" AutoGenerateColumns="False"
-                                  CanUserSortColumns="True" CanUserAddRows="False" CanUserDeleteRows="False">
+                                  CanUserSortColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ID" Binding="{Binding ZodiacSignID}" Width="150" SortMemberPath="ZodiacSignID"/>
                                 <DataGridTextColumn Header="Знак" Binding="{Binding RussianName}" Width="150" SortMemberPath="RussianName"/>
@@ -240,7 +207,7 @@
                         <DataGrid x:Name="ageCategoryGrid"
                                   ItemsSource="{Binding AgeCategories}" AutoGenerateColumns="False"
                                   CanUserSortColumns="True" CanUserAddRows="False" CanUserDeleteRows="False"
-                                  SelectionMode="Single">
+                                  SelectionMode="Single" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Диапазон" Width="120">
                                     <DataGridTextColumn.Binding>
@@ -273,7 +240,7 @@
                         <DataGrid x:Name="preferenceGrid"
                   ItemsSource="{Binding PartnerPreferences}" AutoGenerateColumns="False"
                   CanUserSortColumns="True" CanUserAddRows="False" CanUserDeleteRows="False"
-                  SelectionMode="Single">
+                  SelectionMode="Single" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Профиль" Width="200">
                                     <DataGridTextColumn.Binding>

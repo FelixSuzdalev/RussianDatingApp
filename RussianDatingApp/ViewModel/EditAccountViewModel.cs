@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 
@@ -71,7 +72,7 @@ namespace RussianDatingApp.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public EditAccountViewModel(UserAccount account, RussianDatingAppEntities  dbContext)
+        public EditAccountViewModel(UserAccount account, RussianDatingAppEntities dbContext)
         {
             _dbContext = dbContext;
             _originalAccount = account;
@@ -106,6 +107,19 @@ namespace RussianDatingApp.ViewModel
 
         private void Save()
         {
+            // Валидация Email и Phone перед сохранением
+            if (!IsValidEmail(CurrentAccount.Email))
+            {
+                MessageBox.Show("Некорректный формат email.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (!IsValidPhone(CurrentAccount.Phone))
+            {
+                MessageBox.Show("Некорректный формат телефона.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             try
             {
                 _originalAccount.Email = CurrentAccount.Email;
@@ -138,6 +152,20 @@ namespace RussianDatingApp.ViewModel
                     break;
                 }
             }
+        }
+
+        // Метод для проверки формата email с использованием регулярного выражения
+        private bool IsValidEmail(string email)
+        {
+            var emailRegex = new Regex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+            return emailRegex.IsMatch(email);
+        }
+
+        // Метод для проверки формата телефона (например, российский номер)
+        private bool IsValidPhone(string phone)
+        {
+            var phoneRegex = new Regex(@"^\+7\d{10}$"); // Формат: +7XXXXXXXXXX
+            return phoneRegex.IsMatch(phone);
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

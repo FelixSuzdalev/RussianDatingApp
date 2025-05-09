@@ -158,17 +158,21 @@ namespace RussianDatingApp.ViewModel
         {
             var profile = new UserProfile
             {
+                FirstName = "Иван", // можешь сделать пустым — пусть вводится в окне
+                LastName = "Иванов",
                 Gender = "Мужской",
                 InterestedInGender = "Женский",
                 BirthDate = DateTime.Today.AddYears(-18),
-                RegistrationID = Registrations.FirstOrDefault()?.RegistrationID ?? 1
+                RegistrationID = Registrations.FirstOrDefault()?.RegistrationID ?? 1,
+                CityID = Cities.FirstOrDefault()?.CityID ?? 1,
+                ZodiacSignID = ZodiacSigns.FirstOrDefault()?.ZodiacSignID ?? 1,
+                AgeCategoryID = AgeCategories.FirstOrDefault()?.AgeCategoryID ?? 1
             };
 
-            _dbContext.UserProfile.Add(profile); // Добавляем до показа окна
+            _dbContext.UserProfile.Add(profile);
 
-            var window = new EditUserProfileWindow
+            var window = new EditUserProfileWindow(profile, _dbContext)
             {
-                DataContext = new EditUserProfileViewModel(profile, _dbContext),
                 Owner = Application.Current.MainWindow
             };
 
@@ -207,9 +211,8 @@ namespace RussianDatingApp.ViewModel
         {
             if (profile == null) return;
 
-            var window = new EditUserProfileWindow
+            var window = new EditUserProfileWindow(profile, _dbContext)
             {
-                DataContext = new EditUserProfileViewModel(profile, _dbContext),
                 Owner = Application.Current.MainWindow
             };
 
