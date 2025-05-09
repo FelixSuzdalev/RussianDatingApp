@@ -11,9 +11,12 @@ namespace RussianDatingApp.ViewModel
     public abstract class ABaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        /// <summary>
+        /// Вызывает событие PropertyChanged для свойства с именем propertyName.
+        /// </summary>
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected virtual bool SetPropertyChanged<T>(ref T source, T value, [CallerMemberName] string propertyName = null, Action onChanged = null)

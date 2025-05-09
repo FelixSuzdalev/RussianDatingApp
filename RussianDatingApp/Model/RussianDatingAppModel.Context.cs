@@ -33,5 +33,9 @@ namespace RussianDatingApp.Model
         public DbSet<UserAccount> UserAccount { get; set; }
         public DbSet<UserProfile> UserProfile { get; set; }
         public DbSet<ZodiacSign> ZodiacSign { get; set; }
+
+
+
     }
+
 }
